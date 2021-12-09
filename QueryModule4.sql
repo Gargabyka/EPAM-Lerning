@@ -7,6 +7,50 @@ VALUES (N'RATTC',1,'8/2/2021','8/12/2021','8/8/2021',3,50.00,
 	N'Avrora',N'5ª St. Petersburg',N'Petersburg',
 	N'RU',N'1081',N'Russia')
 	
+INSERT INTO dbo.Orders DEFAULT VALUES
+SELECT *
+FROM dbo.Orders
+	
+/*4.1.2.Написать запрос, который добавляет 5 новых заказов в таблицу dbo.Orders
+Необходимо написать два запроса
+• первый с использованием Values;
+• второй с использованием Select.*/
+DECLARE @rows int, @cntr int 
+SET @rows = 5
+SET @cntr = 0
+
+WHILE @cntr < @rows
+BEGIN
+	INSERT INTO dbo.Orders 
+	VALUES (N'RATTC',1,'8/2/2021','8/12/2021','8/8/2021',3,50.00,
+		N'Avrora',N'5ª St. Petersburg',N'Petersburg',
+		N'RU',N'1081',N'Russia')
+	SET @cntr = @cntr + 1
+END
+
+DECLARE @rows int, @cntr int 
+SET @rows = 5
+SET @cntr = 0
+
+WHILE @cntr < @rows
+BEGIN
+	INSERT INTO dbo.Orders DEFAULT VALUES
+	SELECT *
+	FROM dbo.Orders
+END
+
+/*4.1.3.Написать запрос, который добавляет в таблицу dbo.Orders дублирующие 
+заказы по CustomerID = ‘WARTH’ и продавцу EmployeeID = 5 (заменить 
+CustomerID на ‘TOMSP’).*/ 
+
+INSERT INTO dbo.Orders 
+SELECT *
+FROM dbo.Orders o 
+WHERE o.CustomerID = 'WARTH' AND o.EmployeeID = 5
+UPDATE dbo.Orders SET CustomerID = 'TOMSP'
+WHERE o.CustomerID = 'WARTH' AND o.EmployeeID = 5
+-- ???? Неправильно
+	
 /*4.1.4.Написать запрос, который обновит по всем заказам дату ShippedDate
 (которые еще не доставлены) на текущую дату.*/
 UPDATE dbo.Orders SET ShippedDate = GETDATE()
