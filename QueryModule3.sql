@@ -57,6 +57,7 @@ LastName & FirstName должна быть получена отдельным �
 		COUNT(o.EmployeeID)					   AS Amount 
 	FROM dbo.Orders o 
 	GROUP BY o.EmployeeID 
+	ORDER BY Amount DESC
 	
 /*3.2.3 По таблице Orders найти количество заказов
 Условия:
@@ -104,18 +105,19 @@ ALL <имя> <число продаж для данного покупателя
 типа записи);
 • ‘City’. 
 Отсортировать результаты запроса по колонке ‘City’ и по ‘Person’*/
-	
-CONCAT(e.LastName, ' ', e.FirstName) AS Person,
-	'Seller'							 AS Type,
-	e.City 								 AS City 
-	FROM dbo.Employees e
-	WHERE EXISTS (SELECT * FROM dbo.Customers c2 WHERE c2.City = e.City)
+
+SELECT
+		CONCAT(e.LastName, ' ', e.FirstName) AS Person,
+		'Seller'							 AS Type,
+		e.City 								 AS City 
+		FROM dbo.Employees e
+		WHERE EXISTS (SELECT * FROM dbo.Customers c2 WHERE c2.City = e.City)
 UNION SELECT
-	c.CompanyName 						 AS Person,
-	'Customer'							 AS Type,
-	c.City 							     AS City
-	FROM dbo.Customers c
-	WHERE EXISTS (SELECT * FROM dbo.Employees e2 WHERE e2.City = c.City)
+		c.CompanyName 						 AS Person,
+		'Customer'							 AS Type,
+		c.City 							     AS City
+		FROM dbo.Customers c
+		WHERE EXISTS (SELECT * FROM dbo.Employees e2 WHERE e2.City = c.City)
 ORDER BY City, Person
 
 /*3.2.5. Найти всех покупателей, которые живут в одном городе. 
@@ -126,11 +128,11 @@ ORDER BY City, Person
 встречаются более одного раза в таблице Customers. Это позволит проверить 
 правильность запроса.*/
 
-SELECT 
-	c.CustomerID 			AS CustomerID,
-	c.City 					AS City
+SELECT DISTINCT 
+	c2.CustomerID 				AS CustomerID,
+	c2.City 					AS City
 FROM dbo.Customers c 
-WHERE EXISTS (SELECT * FROM dbo.Customers c2 WHERE c.City = c2.City AND c.CustomerID <> c2.CustomerID)
+JOIN dbo.Customers c2 		ON c2.City = c.City  AND c2.CustomerID <> c.CustomerID 
 ORDER BY City 
 
 /*3.2.6. По таблице Employees найти для каждого продавца его руководителя, т.е. 

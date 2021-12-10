@@ -14,7 +14,7 @@
 
 	SELECT ord.OrderID, ord.ShippedDate, ord.ShipVia
 	FROM dbo.Orders ord
-	WHERE ord.ShipVia >= 2 and ord.ShippedDate >= CONVERT(DATETIME, '19980506');
+	WHERE ord.ShipVia >= 2 and ord.ShippedDate >= N'19980506'
 
 -- Не попали значения NULL, т.к. нет условий подходящих для вывода данного значения 
 
@@ -26,12 +26,12 @@
 Для колонки ShippedDate вместо значений NULL выводить строку ‘Not Shipped’ – для 
 этого использовать системную функцию CASЕ.*/
 
-	SELECT 
+		SELECT 
 		ord.OrderID, 
 			CASE
 				WHEN ord.ShippedDate IS NULL THEN 'Not Shipped'   
 			END 
-		AS ord.ShippedDate
+		AS ShippedDate
 	FROM dbo.Orders ord
 	WHERE ShippedDate IS NULL;
 	
@@ -55,28 +55,28 @@
 			END 
 		as [Shippend Date]
 	FROM dbo.Orders ord
-	WHERE ord.ShippedDate >= CONVERT(DATETIME, '19980506')  OR ord.ShippedDate IS NULL;
+	WHERE ord.ShippedDate > N'19980506'  OR ord.ShippedDate IS NULL;
 	
--- 2.2.1  Выбрать из таблицы Customers всех заказчиков, проживающих в USA и Canada. 
-/*Запрос сделать с только помощью оператора IN. 
+/*2.2.1  Выбрать из таблицы Customers всех заказчиков, проживающих в USA и Canada. 
+Запрос сделать с только помощью оператора IN. 
 Высвечивать колонки с именем пользователя и названием страны в результатах запроса. 
 Упорядочить результаты запроса по имени заказчиков и по месту проживания*/
 
 	SELECT 
 		cus.ContactName AS [User Name],
-		cus.Country 	AS [User's Country]
+		cus.Country 	AS [User Country]
 	FROM dbo.Customers cus 
 	WHERE cus.Country in ('USA', 'Canada')
 	ORDER BY cus.Country, cus.ContactName
 
--- 2.2.2  Выбрать из таблицы Customers всех заказчиков, не проживающих в USA и Canada. 
-/*Запрос сделать с помощью оператора IN. 
+/* 2.2.2  Выбрать из таблицы Customers всех заказчиков, не проживающих в USA и Canada. 
+Запрос сделать с помощью оператора IN. 
 Высвечивать колонки с именем пользователя и названием страны в результатах запроса. 
 Упорядочить результаты запроса по имени заказчиков*/
 	
 	SELECT 
 		cus.ContactName AS [User Name],
-		cus.Country AS [User's Country]
+		cus.Country AS [User Country]
 	FROM dbo.Customers cus 
 	WHERE cus.Country not in ('USA', 'Canada')
 	ORDER BY cus.ContactName
@@ -88,7 +88,7 @@ Cписок стран должен быть отсортирован по уб�
 Высвечивать только одну колонку в результатах запроса.*/
 	
 	SELECT DISTINCT
-		cus.Country AS [User's Country] 
+		cus.Country AS [User Country] 
 	FROM dbo.Customers cus 
 	ORDER BY cus.Country DESC
 	
@@ -114,7 +114,7 @@ Cписок стран должен быть отсортирован по уб�
 	
 	SELECT 
 		cust.CustomerID AS [UserId],
-		cust.Country	AS [User's Country]
+		cust.Country	AS [User Country]
 	FROM dbo.Customers cust
 	WHERE cust.Country BETWEEN 'b' AND 'h'
 	ORDER BY cust.Country
@@ -140,7 +140,7 @@ Country.*/
 
 	SELECT 
 		cust.CustomerID AS [UserId],
-		cust.Country	AS [User's Country]
+		cust.Country	AS [User Country]
 	FROM dbo.Customers cust
 	WHERE cust.Country >= 'b' AND cust.Country <= 'h'
 	ORDER BY cust.Country
@@ -163,10 +163,10 @@ Country.*/
 (колонка LastName ) из этой таблицы. 
 Алфавитный список должен быть отсортирован по возрастанию.*/
 	
-	SELECT 
+	SELECT DISTINCT 
 		SUBSTRING(emp.LastName, 1,1) AS [Last Name]
 	FROM dbo.Employees emp
-	ORDER BY emp.LastName
+	ORDER BY [Last Name]
 	
 -- 2.5.1 Определить продавцов, которые обслуживают регион 'Western' (таблица Region). 
 /*Результаты запроса должны высвечивать поля: 

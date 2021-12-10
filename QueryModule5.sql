@@ -1,3 +1,79 @@
+/*1. Написать процедуру, которая возвращает самый крупный заказ для 
+каждого из продавцов за определенный год. 
+В результатах не может быть несколько заказов одного продавца, должен быть 
+только один и самый крупный. 
+В результатах запроса должны быть выведены следующие колонки: колонка с 
+именем и фамилией продавца (FirstName и LastName – пример: Nancy Davolio), 
+номер заказа и его стоимость. 
+В запросе надо учитывать Discount при продаже товаров. 
+Процедуре передается год, за который надо сделать отчет, и количество 
+возвращаемых записей. 
+Результаты запроса должны быть упорядочены по убыванию суммы заказа. 
+Процедура должна быть реализована 2-мя способами с использованием 
+оператора SELECT и с использованием курсора. 
+Название процедур соответственно GreatestOrders и GreatestOrdersCur. 
+Необходимо продемонстрировать использование этих процедур. 
+
+Также помимо демонстрации вызовов процедур в скрипте Query.sql надо 
+написать отдельный ДОПОЛНИТЕЛЬНЫЙ проверочный запрос для тестирования 
+правильности работы процедуры GreatestOrders. 
+Проверочный запрос должен выводить в удобном для сравнения с результатами 
+работы процедур виде для определенного продавца для всех его заказов за 
+определенный указанный год в результатах следующие колонки: имя продавца, 
+номер заказа, сумму заказа. 
+Проверочный запрос не должен повторять запрос, написанный в процедуре, - он 
+должен выполнять только то, что описано в требованиях по нему.*/
+
+-- Процедура через SELECT
+CREATE OR ALTER PROC GreatestOrders
+	@Year INT = 1998
+AS
+	SELECT 
+		CONCAT(e.LastName, ' ', e.FirstName) AS FullName,
+		ord.OrderId 						 AS OrderId,
+		ord.Price						 	 AS Price
+	FROM dbo.Employees e 
+	CROSS APPLY (
+		SELECT TOP 1
+			o.OrderID,
+			CONVERT(MONEY,SUM(od.UnitPrice - (od.UnitPrice * (od.Discount*100)/100))) AS Price
+		FROM dbo.Orders o 
+		JOIN dbo.[Order Details] od 	ON od.OrderID = o.OrderID 
+											AND o.EmployeeID = e.EmployeeID 
+											AND YEAR(o.OrderDate) = @Year
+		GROUP BY o.OrderID, od.UnitPrice 
+		ORDER BY od.UnitPrice DESC
+	) AS ord
+
+-- Проверочный запрос
+CREATE OR ALTER FUNCTION GreatestOrdersTest (@EmployeeID INT, @Years INT)
+RETURNS @GreatestOrdersTest table
+	(
+		[Name] NVARCHAR(70) NULL,
+		[OrderId] INT NULL,
+		[Price] MONEY NULL
+	)
+AS 
+BEGIN 
+		INSERT INTO @GreatestOrdersTest
+		SELECT
+			CONCAT(e.LastName, ' ', e.FirstName) 	AS [Name],
+			o.OrderID 								AS [OrderId],
+			od.UnitPrice 							AS [Price]
+		FROM dbo.Employees e 
+		JOIN dbo.Orders o 				ON o.EmployeeID = e.EmployeeID 
+		JOIN dbo.[Order Details] od 	ON od.OrderID = o.OrderID 
+		WHERE YEAR(o.OrderDate) = @Years AND e.EmployeeID = @EmployeeID
+		ORDER BY od.UnitPrice DESC	
+		OFFSET 0 ROWS
+		
+		RETURN;
+END
+
+-- Вызов запроса. Первый параметр - EmployeeID(Значения 1-9), второй - Year(1996-1998)
+SELECT *
+FROM dbo.GreatestOrdersTest(2, 1998)
+
 /*2. Написать процедуру, которая возвращает заказы в таблице Orders, 
 согласно указанному сроку доставки в днях (разница между OrderDate и 
 ShippedDate). 
@@ -10,7 +86,7 @@ ShippedDate, ShippedDelay (разность в днях между ShippedDate �
 SpecifiedDelay (переданное в процедуру значение). 
 Необходимо продемонстрировать использование этой процедуры*/
 
-CREATE PROC ShippedOrdersDiff
+CREATE OR ALTER PROC ShippedOrdersDiff
 	@SpecifiedDelay INT = 35
 AS
 	SELECT
@@ -23,6 +99,26 @@ AS
 	WHERE DAY(o.ShippedDate) - DAY(o.OrderDate) > 0 AND DAY(o.ShippedDate) - DAY(o.OrderDate) <= @SpecifiedDelay
 	GROUP BY o.OrderID, o.OrderDate, o.ShippedDate 
 	
+-- ИЛИ 
+
+IF NOT EXISTS (SELECT * FROM SYS.OBJECTS WHERE OBJECT_ID = OBJECT_ID(N'[dbo].[ShippedOrdersDiff]') AND TYPE IN (N'P', N'PC'))
+EXEC('CREATE PROCEDURE [dbo].[ShippedOrdersDiff] AS')
+GO
+	ALTER PROCEDURE [dbo].[ShippedOrdersDiff]
+	@SpecifiedDelay INT = 35
+AS
+BEGIN
+	SELECT
+		o.OrderID 									AS OrderID,
+		o.OrderDate 								AS OrderDate,
+		o.ShippedDate 								AS ShippedDate,
+		SUM(DAY(o.ShippedDate) - DAY(o.OrderDate))	AS ShippedDelay,
+		@SpecifiedDelay								AS SpecifiedDelay
+	FROM dbo.Orders o
+	WHERE DAY(o.ShippedDate) - DAY(o.OrderDate) > 0 AND DAY(o.ShippedDate) - DAY(o.OrderDate) <= @SpecifiedDelay
+	GROUP BY o.OrderID, o.OrderDate, o.ShippedDate 
+END
+	
 -- EXECUTE ShippedOrdersDiff 
 
 /*3. Написать функцию, которая определяет, есть ли у продавца подчиненные. 
@@ -31,7 +127,7 @@ EmployeeID. Название функции IsBoss.
 Продемонстрировать использование функции для всех продавцов из таблицы 
 Employees.*/
 
-CREATE FUNCTION IsBoss (@EmployeeID INT)
+CREATE OR ALTER FUNCTION IsBoss (@EmployeeID INT)
 RETURNS BIT 
 AS 
 BEGIN 
@@ -53,7 +149,7 @@ END
 Результат запроса необходимо представить в виде представления. 
 Отсортировать по цене товара.*/
 
-CREATE VIEW ViewTest AS
+CREATE OR ALTER VIEW ViewTest AS
 SELECT 
 	o.OrderID 														AS OrderId,
 	o.CustomerID													AS CustomerID,

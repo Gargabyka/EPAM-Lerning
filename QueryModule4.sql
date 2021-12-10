@@ -28,28 +28,26 @@ BEGIN
 	SET @cntr = @cntr + 1
 END
 
-DECLARE @rows int, @cntr int 
-SET @rows = 5
-SET @cntr = 0
-
-WHILE @cntr < @rows
-BEGIN
-	INSERT INTO dbo.Orders DEFAULT VALUES
-	SELECT *
-	FROM dbo.Orders
-END
+INSERT INTO dbo.Orders
+SELECT TOP (5) 'TOMSP',
+EmployeeID, OrderDate, RequiredDate,
+ShippedDate, ShipVia, Freight,
+ShipName, ShipAddress, ShipCity,
+ShipRegion, ShipPostalCode, ShipCountry
+FROM dbo.Orders
 
 /*4.1.3.Написать запрос, который добавляет в таблицу dbo.Orders дублирующие 
 заказы по CustomerID = ‘WARTH’ и продавцу EmployeeID = 5 (заменить 
 CustomerID на ‘TOMSP’).*/ 
 
-INSERT INTO dbo.Orders 
-SELECT *
-FROM dbo.Orders o 
-WHERE o.CustomerID = 'WARTH' AND o.EmployeeID = 5
-UPDATE dbo.Orders SET CustomerID = 'TOMSP'
-WHERE o.CustomerID = 'WARTH' AND o.EmployeeID = 5
--- ???? Неправильно
+INSERT INTO dbo.Orders
+SELECT 'TOMSP',
+EmployeeID, OrderDate, RequiredDate,
+ShippedDate, ShipVia, Freight,
+ShipName, ShipAddress, ShipCity,
+ShipRegion, ShipPostalCode, ShipCountry
+FROM dbo.Orders
+WHERE CustomerID = N'WARTH' AND EmployeeID = 5
 	
 /*4.1.4.Написать запрос, который обновит по всем заказам дату ShippedDate
 (которые еще не доставлены) на текущую дату.*/
@@ -93,14 +91,14 @@ Date DATETIME)
  
 -- Добавление данных во временную таблицу tblBook
 INSERT INTO #tblBook
-VALUES (1,'Война и мир'),
-        (2,'Преступление и наказание'),
-        (3,'Мастер и Маргарита'),
-        (4,'Тихий дон')
+VALUES  (1, N'Война и мир'),
+        (2, N'Преступление и наказание'),
+        (3, N'Мастер и Маргарита'),
+        (4, N'Тихий дон')
  
 -- Добавление данных во временную таблицу tblBookInLibrary       
 INSERT INTO #tblBookInLibrary
-VALUES (1,CAST('2006-05-01' as datetime)),
+VALUES  (1,CAST('2006-05-01' as datetime)),
         (3,CAST('2004-07-05' as datetime))
         
 -- Первый запрос
