@@ -44,6 +44,7 @@ AS
 		GROUP BY o.OrderID, od.UnitPrice 
 		ORDER BY od.UnitPrice DESC
 	) AS ord
+	ORDER BY Price DESC 
 
 -- Проверочный запрос
 CREATE OR ALTER FUNCTION GreatestOrdersTest (@EmployeeID INT, @Years INT)
@@ -70,6 +71,52 @@ BEGIN
 		RETURN;
 END
 
+--Процедура через курсор
+
+CREATE OR ALTER PROC GreatestOrdersCur
+	@Year INT = 1998
+AS
+	BEGIN
+		DECLARE @FullName NVARCHAR(50)
+		DECLARE @OrderId INT
+		DECLARE @Price MONEY
+		DECLARE @tempPrice MONEY
+
+		CREATE TABLE #greatestOrdersCur
+		(FullName NVARCHAR(50),
+			OrderId INT,
+			Price MONEY)
+
+		DECLARE autocur CURSOR GLOBAL FOR  
+			SELECT 
+				CONCAT(e.LastName, ' ', e.FirstName)										AS FullName,
+				o.OrderID 																	AS OrderId,
+				CONVERT(MONEY,SUM(od.UnitPrice - (od.UnitPrice * (od.Discount*100)/100)))	AS UnitPrice
+			FROM dbo.Employees e 
+			JOIN dbo.Orders o 			ON o.EmployeeID = e.EmployeeID AND YEAR(o.OrderDate) = @Year
+			JOIN dbo.[Order Details] od ON od.OrderID = o.OrderID 
+			GROUP BY e.LastName, e.FirstName, o.OrderID
+
+		OPEN autocur
+		FETCH FROM autocur INTO @FullName, @OrderId, @Price
+		WHILE @@FETCH_STATUS = 0   
+			BEGIN 
+				SET @tempPrice = (SELECT PRICE FROM #greatestOrdersCur WHERE FullName = @FullName)
+				IF NOT EXISTS(SELECT * FROM #greatestOrdersCur cur WHERE cur.FullName=@FullName)
+					INSERT INTO #greatestOrdersCur VALUES (@FullName, @OrderId, @Price)
+				IF @tempPrice < @Price
+					UPDATE #greatestOrdersCur SET Price = @Price, OrderId = @OrderId
+						FROM #greatestOrdersCur
+						WHERE FullName = @FullName 
+				FETCH NEXT FROM autocur INTO @FullName, @OrderId, @Price
+			END
+		CLOSE autocur
+		DEALLOCATE autocur
+	END
+
+	SELECT *
+	FROM #greatestOrdersCur
+	
 -- Вызов запроса. Первый параметр - EmployeeID(Значения 1-9), второй - Year(1996-1998)
 SELECT *
 FROM dbo.GreatestOrdersTest(2, 1998)
@@ -165,3 +212,115 @@ LEFT JOIN dbo.Products p 		ON p.ProductID = od.ProductID
 GROUP BY o.OrderID, o.CustomerID, e.LastName, e.FirstName, o.OrderDate, o.RequiredDate, p.ProductName 
 ORDER BY Product
 OFFSET 0 ROWS
+
+/*5. Создать таблицу dbo.OrdersHistory, которая будет хранить историю 
+изменений по таблице dbo.Orders. 
+Необходимо подумать какие бы поля могла бы содержать данная таблица. 
+Обосновать свой выбор. Почему именно такой набор полей должен быть в 
+таблице dbo.OrdersHistory? 
+Затем для таблицы dbo.Orders необходимо создать триггер, который при любом 
+изменении данных в таблице dbo.Orders будет записывать значения в новую 
+таблицу dbo.OrdersHistory. 
+Написать проверочный запрос, который будет изменять/удалять данные из 
+таблицы dbo.Order*/
+
+-- Создание таблицы
+CREATE TABLE dbo.OrdersHistory
+(
+	Id INT IDENTITY (1,1),
+	OrderId INT, -- Новый OrderId
+	OrderIdOld INT, -- Старый OrderId
+	CustomerId NCHAR(5), -- Новый CustomerId
+	CustomerIdOld NCHAR(5), -- Старый CustomerId
+	EmployeeId INT, -- Новый EmployeeId
+	EmployeeIdOld INT, -- Старый EmployeeId
+	OrderDate DATETIME, -- Новый OrderDate
+	OrderDateOld DATETIME, -- Старый OrderDate
+	Freight MONEY, -- Новый Freight
+	FreightOld MONEY, -- Старый Freight
+	ShipName NVARCHAR(40), -- Новый ShipName
+	ShipNameOld NVARCHAR(40), -- Старый ShipName
+	ShipAddress NVARCHAR(60), -- Новый ShipAddress
+	ShipAddressOld NVARCHAR(60) -- Старый ShipAddress
+)
+
+--Триггер на обновление
+CREATE TRIGGER Orders_UPDATE
+ON dbo.Orders AFTER UPDATE
+AS
+	BEGIN
+		DECLARE @OrderId INT = (SELECT OrderId FROM Deleted)
+		DECLARE @OrderIdOld INT = (SELECT OrderId FROM Inserted)
+		DECLARE @CustomerId NCHAR(5) = (SELECT CustomerId FROM Deleted)
+		DECLARE @CustomerIdOld NCHAR(5) = (SELECT CustomerId FROM Inserted)
+		DECLARE @EmployeeId INT = (SELECT EmployeeId FROM Deleted)
+		DECLARE @EmployeeIdOld INT = (SELECT EmployeeId FROM Inserted)
+		DECLARE @OrderDate DATETIME = (SELECT OrderDate FROM Deleted)
+		DECLARE @OrderDateOld DATETIME = (SELECT OrderDate FROM Inserted)
+		DECLARE @Freight MONEY = (SELECT Freight FROM Deleted)
+		DECLARE @FreightOld MONEY = (SELECT Freight FROM Inserted)
+		DECLARE @ShipName NVARCHAR(50) = (SELECT ShipName FROM Deleted)
+		DECLARE @ShipNameOld NVARCHAR(50) = (SELECT ShipName FROM Inserted)
+		DECLARE @ShipAddress NVARCHAR(60) = (SELECT ShipAddress FROM Deleted)
+		DECLARE @ShipAddressOld NVARCHAR(60) = (SELECT ShipAddress FROM Inserted)
+
+		INSERT INTO dbo.OrdersHistory 
+		VALUES (@OrderId, @OrderIdOld,
+				@CustomerId, @CustomerIdOld,
+				@EmployeeId, @EmployeeIdOld,
+				@OrderDate, @OrderDateOld,
+				@Freight, @FreightOld,
+				@ShipName, @ShipNameOld,
+				@ShipAddress, @ShipAddressOld,
+				GETDATE(), 'Update')
+	END
+	
+-- Триггер на удаление
+CREATE TRIGGER Orders_DELETE
+ON dbo.Orders AFTER DELETE
+AS
+	BEGIN
+		DECLARE @OrderIdOld INT = (SELECT OrderId FROM Deleted)
+		DECLARE @CustomerIdOld NCHAR(5) = (SELECT CustomerId FROM Deleted)
+		DECLARE @EmployeeIdOld INT = (SELECT EmployeeId FROM Deleted)
+		DECLARE @OrderDateOld DATETIME = (SELECT OrderDate FROM Deleted)
+		DECLARE @FreightOld MONEY = (SELECT Freight FROM Deleted)
+		DECLARE @ShipNameOld NVARCHAR(50) = (SELECT ShipName FROM Deleted)
+		DECLARE @ShipAddressOld NVARCHAR(60) = (SELECT ShipAddress FROM Deleted)
+
+		INSERT INTO dbo.OrdersHistory 
+		VALUES (NULL, @OrderIdOld,
+				NULL, @CustomerIdOld,
+				NULL, @EmployeeIdOld,
+				NULL, @OrderDateOld,
+				NULL, @FreightOld,
+				NULL, @ShipNameOld,
+				NULL, @ShipAddressOld,
+				GETDATE(), 'Delete')
+	END
+
+--Триггер на добавление
+CREATE TRIGGER Orders_INSERT
+ON dbo.Orders AFTER INSERT
+AS
+	BEGIN
+		DECLARE @OrderId INT = (SELECT OrderId FROM Inserted)
+		DECLARE @CustomerId NCHAR(5) = (SELECT CustomerId FROM Inserted)
+		DECLARE @EmployeeId INT = (SELECT EmployeeId FROM Inserted)
+		DECLARE @OrderDate DATETIME = (SELECT OrderDate FROM Inserted)
+		DECLARE @Freight MONEY = (SELECT Freight FROM Inserted)
+		DECLARE @ShipName NVARCHAR(50) = (SELECT ShipName FROM Inserted)
+		DECLARE @ShipAddress NVARCHAR(60) = (SELECT ShipAddress FROM Inserted)
+
+		INSERT INTO dbo.OrdersHistory 
+		VALUES (@OrderId, NULL,
+				@CustomerId, NULL,
+				@EmployeeId, NULL,
+				@OrderDate, NULL,
+				@Freight, NULL,
+				@ShipName, NULL,
+				@ShipAddress, NULL,
+				GETDATE(), 'Insert')
+	END
+	
+	
