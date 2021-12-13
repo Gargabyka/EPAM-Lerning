@@ -31,20 +31,21 @@ AS
 	SELECT 
 		CONCAT(e.LastName, ' ', e.FirstName) AS FullName,
 		ord.OrderId 						 AS OrderId,
-		ord.Price						 	 AS Price
+		ord.Price							 AS Price
 	FROM dbo.Employees e 
-	CROSS APPLY (
+	CROSS APPLY ( 
 		SELECT TOP 1
 			o.OrderID,
 			CONVERT(MONEY,SUM(od.UnitPrice - (od.UnitPrice * (od.Discount*100)/100))) AS Price
 		FROM dbo.Orders o 
 		JOIN dbo.[Order Details] od 	ON od.OrderID = o.OrderID 
 											AND o.EmployeeID = e.EmployeeID 
-											AND YEAR(o.OrderDate) = @Year
-		GROUP BY o.OrderID, od.UnitPrice 
-		ORDER BY od.UnitPrice DESC
+											AND YEAR(o.OrderDate) = 1998
+		GROUP BY o.OrderID
+		ORDER BY Price DESC
 	) AS ord
 	ORDER BY Price DESC 
+
 
 -- Проверочный запрос
 CREATE OR ALTER FUNCTION GreatestOrdersTest (@EmployeeID INT, @Years INT)
@@ -116,6 +117,7 @@ AS
 
 	SELECT *
 	FROM #greatestOrdersCur
+	ORDER BY Price DESC
 	
 -- Вызов запроса. Первый параметр - EmployeeID(Значения 1-9), второй - Year(1996-1998)
 SELECT *
@@ -140,10 +142,10 @@ AS
 		o.OrderID 									AS OrderID,
 		o.OrderDate 								AS OrderDate,
 		o.ShippedDate 								AS ShippedDate,
-		SUM(DAY(o.ShippedDate) - DAY(o.OrderDate))	AS ShippedDelay,
+		SUM(DAY(o.OrderDate) - DAY(o.ShippedDate))	AS ShippedDelay,
 		@SpecifiedDelay								AS SpecifiedDelay
 	FROM dbo.Orders o
-	WHERE DAY(o.ShippedDate) - DAY(o.OrderDate) > 0 AND DAY(o.ShippedDate) - DAY(o.OrderDate) <= @SpecifiedDelay
+	WHERE o.ShippedDate IS NULL OR DAY(o.OrderDate) - DAY(o.ShippedDate) > @SpecifiedDelay
 	GROUP BY o.OrderID, o.OrderDate, o.ShippedDate 
 	
 -- ИЛИ 
@@ -225,27 +227,32 @@ OFFSET 0 ROWS
 таблицы dbo.Order*/
 
 -- Создание таблицы
-CREATE TABLE dbo.OrdersHistory
-(
-	Id INT IDENTITY (1,1),
-	OrderId INT, -- Новый OrderId
-	OrderIdOld INT, -- Старый OrderId
-	CustomerId NCHAR(5), -- Новый CustomerId
-	CustomerIdOld NCHAR(5), -- Старый CustomerId
-	EmployeeId INT, -- Новый EmployeeId
-	EmployeeIdOld INT, -- Старый EmployeeId
-	OrderDate DATETIME, -- Новый OrderDate
-	OrderDateOld DATETIME, -- Старый OrderDate
-	Freight MONEY, -- Новый Freight
-	FreightOld MONEY, -- Старый Freight
-	ShipName NVARCHAR(40), -- Новый ShipName
-	ShipNameOld NVARCHAR(40), -- Старый ShipName
-	ShipAddress NVARCHAR(60), -- Новый ShipAddress
-	ShipAddressOld NVARCHAR(60) -- Старый ShipAddress
-)
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'OrdersHistory')
+BEGIN
+    CREATE TABLE dbo.OrdersHistory
+	(
+		Id INT IDENTITY (1,1),
+		OrderId INT, -- Новый OrderId
+		OrderIdOld INT, -- Старый OrderId
+		CustomerId NCHAR(5), -- Новый CustomerId
+		CustomerIdOld NCHAR(5), -- Старый CustomerId
+		EmployeeId INT, -- Новый EmployeeId
+		EmployeeIdOld INT, -- Старый EmployeeId
+		OrderDate DATETIME, -- Новый OrderDate
+		OrderDateOld DATETIME, -- Старый OrderDate
+		Freight MONEY, -- Новый Freight
+		FreightOld MONEY, -- Старый Freight
+		ShipName NVARCHAR(40), -- Новый ShipName
+		ShipNameOld NVARCHAR(40), -- Старый ShipName
+		ShipAddress NVARCHAR(60), -- Новый ShipAddress
+		ShipAddressOld NVARCHAR(60), -- Старый ShipAddress
+		ChangeDate DATETIME, -- Дата изменения
+		STATE NVARCHAR(60) -- Статус 
+	)
+END
 
 --Триггер на обновление
-CREATE TRIGGER Orders_UPDATE
+CREATE OR ALTER TRIGGER Orders_UPDATE
 ON dbo.Orders AFTER UPDATE
 AS
 	BEGIN
@@ -276,7 +283,7 @@ AS
 	END
 	
 -- Триггер на удаление
-CREATE TRIGGER Orders_DELETE
+CREATE OR ALTER TRIGGER Orders_DELETE
 ON dbo.Orders AFTER DELETE
 AS
 	BEGIN
@@ -300,7 +307,7 @@ AS
 	END
 
 --Триггер на добавление
-CREATE TRIGGER Orders_INSERT
+CREATE OR ALTER TRIGGER Orders_INSERT
 ON dbo.Orders AFTER INSERT
 AS
 	BEGIN
