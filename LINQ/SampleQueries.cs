@@ -118,6 +118,34 @@ namespace SampleQueries
 		}
 		
 		[Category("Lesson")]
+		[Title("Where - Task 5")]
+		[Description("5. Сделайте предыдущее задание, но выдайте список отсортированным по году месяцу, оборотам клиента (от максимального к минимальному) и имени клиента")]
+
+		public void Linq5()
+		{
+			var customers = dataSource.Customers
+				.Where(x => x.Orders.Length > 0)
+				.Select(x => new
+				{
+					Id = x.CustomerID,
+					Name = x.CompanyName,
+					Year = x.Orders.Min(o=>o.OrderDate.Year),
+					Month = x.Orders.Min(p=>p.OrderDate.Month),
+					Price = x.Orders.Max(p=>p.Total)
+				})
+				.OrderBy(x=> x.Year)
+				.ThenBy(x=>x.Month)
+				.ThenBy(x=>x.Name)
+				.ThenByDescending (x => x.Price)
+				.ToList();
+			
+			foreach (var cus in customers)
+			{
+				ObjectDumper.Write(cus);
+			}
+		}
+		
+		[Category("Lesson")]
 		[Title("Where - Task 6")]
 		[Description("Укажите всех клиентов, у которых указан нецифровой почтовый код или не заполнен регион или в телефоне не указан код оператора")]
 
@@ -208,6 +236,97 @@ namespace SampleQueries
 			foreach (var cus in customers)
 			{
 				ObjectDumper.Write(cus);
+			}
+		}
+		
+				[Category("Lesson")]
+		[Title("Where - Task 10")]
+		[Description("Сделайте среднегодовую статистику активности клиентов по месяцам (без учетагода), статистику по годам, по годам и месяцам (т.е. когда один месяц в разные годы имеет своё значение).")]
+
+		public void Linq10()
+		{
+			var result1 = dataSource.Customers
+				.SelectMany(x => x.Orders, ((customer, order) => new
+				{
+					Month = order.OrderDate.Month,
+					Order = order
+				}))
+				.GroupBy(x => x.Month, (month, order) => new
+				{
+					Month = month,
+					Counts = order.Count()
+				})
+				.Select(x=>new
+				{
+					Month = x.Month,
+					Count = x.Counts
+				})
+				.OrderBy(x => x.Month)
+				.ToList();
+
+			Console.WriteLine("Сортировка по месяцам");
+			foreach (var res in result1)
+			{
+				ObjectDumper.Write(res);
+			}
+			
+			var result2 = dataSource.Customers
+				.SelectMany(x => x.Orders, ((customer, order) => new
+				{
+					Year = order.OrderDate.Year,
+					Order = order
+				}))
+				.GroupBy(x => x.Year, (year, order) => new
+				{
+					Year = year,
+					Counts = order.Count()
+				})
+				.Select(x=>new
+				{
+					Year = x.Year,
+					Count = x.Counts
+				})
+				.OrderBy(x => x.Year)
+				.ToList();
+
+			Console.WriteLine("Сортировка по годам");
+			foreach (var res in result2)
+			{
+				ObjectDumper.Write(res);
+			}
+			
+			var result3 = dataSource.Customers
+				.SelectMany(x => x.Orders, ((customer, order) => new
+				{
+					Year = order.OrderDate.Year,
+					Month = order.OrderDate.Month,
+					Order = order
+				}))
+				.GroupBy(x => x.Year, (year, order) => new
+				{
+					Year = year,
+					Counts = order.GroupBy(y=>y.Month, (month, orderMonth) => new
+					{
+						Month = month,
+						Count = orderMonth.Count(),
+					}).OrderBy(x=>x.Month)
+				})
+				.Select(x=>new
+				{
+					Year = x.Year,
+					Count = x.Counts
+				})
+				.OrderBy(x => x.Year)
+				.ToList();
+
+			Console.WriteLine("Сортировка по годам и месяцам");
+			foreach (var res in result3)
+			{
+				ObjectDumper.Write($"Год - {res.Year}");
+				foreach (var r in res.Count)
+				{
+					ObjectDumper.Write($"Месяц - {r.Month} Кол-во - {r.Count}");
+				}
 			}
 		}
 	}
