@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="814d8358-760b-42b6-b0c4-fb818bc7c6ec" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net.sln" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Ado.Net.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/DBConnect.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Categories.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Customers.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Employees.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Orders.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/OrdersDetails.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Products.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Shippers.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Suppliers.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Enum/StateOrder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ado.Net/Services/OrdersService.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/D1/Single.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <changedPaths>
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Product.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Enum/StateOrder.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Customers.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Employees.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Orders.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Shippers.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/OrdersDetails.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Suppilers.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Products.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Suppliers.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Entities/Categories.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/Services/OrdersService.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/appsettings.json" />
+      <option value="$PROJECT_DIR$/Ado.Net/DBConnect.cs" />
+      <option value="$PROJECT_DIR$/Ado.Net/App.config" />
+    </changedPaths>
+  </component>
+  <component name="ProjectId" id="22VtWAuCExo05qjvmHOSGSzXiEg" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="814d8358-760b-42b6-b0c4-fb818bc7c6ec" name="Default Changelist" comment="" />
+      <created>1639934612607</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1639934612607</updated>
+      <workItem from="1639934635430" duration="33000" />
+      <workItem from="1639934860051" duration="5488000" />
+      <workItem from="1639940889305" duration="3077000" />
+      <workItem from="1639945710408" duration="172000" />
+      <workItem from="1639949878838" duration="10000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
