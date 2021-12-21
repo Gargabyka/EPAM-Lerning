@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,6 +10,11 @@
     <PackageReference Include="Microsoft.Data.SqlClient.SNI.runtime" Version="4.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ado.Net.Dal\Ado.Net.Dal.csproj" />
+    <ProjectReference Include="..\Ado.Net.Logger\Ado.Net.Logger.csproj" />
   </ItemGroup>
 
 </Project>

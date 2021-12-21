@@ -2,25 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="814d8358-760b-42b6-b0c4-fb818bc7c6ec" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Ado.Net.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/DBConnect.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Categories.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Customers.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Employees.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Orders.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/OrdersDetails.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Products.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Shippers.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Entities/Suppliers.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Enum/StateOrder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ado.Net/Services/OrdersService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Ado.Net/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ado.Net/DBConnect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Ado.Net/DBConnect.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +39,8 @@
       <option value="$PROJECT_DIR$/Ado.Net/Entities/Categories.cs" />
       <option value="$PROJECT_DIR$/Ado.Net/Services/OrdersService.cs" />
       <option value="$PROJECT_DIR$/Ado.Net/appsettings.json" />
-      <option value="$PROJECT_DIR$/Ado.Net/DBConnect.cs" />
       <option value="$PROJECT_DIR$/Ado.Net/App.config" />
+      <option value="$PROJECT_DIR$/Ado.Net/DBConnect.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="22VtWAuCExo05qjvmHOSGSzXiEg" />
@@ -87,7 +70,8 @@
       <workItem from="1639934860051" duration="5488000" />
       <workItem from="1639940889305" duration="3077000" />
       <workItem from="1639945710408" duration="172000" />
-      <workItem from="1639949878838" duration="10000" />
+      <workItem from="1639949878838" duration="477000" />
+      <workItem from="1639997253070" duration="9063000" />
     </task>
     <servers />
   </component>

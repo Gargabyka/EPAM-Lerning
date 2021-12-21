@@ -1,7 +1,7 @@
-﻿using System;
-using Ado.Net.Enum;
+﻿
+using Ado.Net.Contracts.Enums;
 
-namespace Ado.Net.Entities
+namespace Ado.Net.Contracts.Entities
 {
     public class Orders
     {

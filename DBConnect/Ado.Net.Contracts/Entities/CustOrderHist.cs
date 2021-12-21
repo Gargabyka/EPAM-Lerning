@@ -1,4 +1,4 @@
-﻿namespace DBConnect.DTO
+﻿namespace Ado.Net.Contracts.Entities
 {
     public class CustOrderHist
     {

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Ado.Net.Contracts\Ado.Net.Contracts.csproj" />
+      <ProjectReference Include="..\Ado.Net.Logger\Ado.Net.Logger.csproj" />
+      <ProjectReference Include="..\Ado.Net.SqlHelper\Ado.Net.SqlHelper.csproj" />
+    </ItemGroup>
+
+</Project>

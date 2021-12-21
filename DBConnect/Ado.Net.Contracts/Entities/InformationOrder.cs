@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DBConnect.DTO
+namespace Ado.Net.Contracts.Entities
 {
     /// <summary>
     /// DTO для метода GetFullInformationOrders

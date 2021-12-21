@@ -1,4 +1,4 @@
-﻿namespace Ado.Net.Enum
+﻿namespace Ado.Net.Contracts.Enums
 {
     /// <summary>
     /// Статус заказа

@@ -7,7 +7,7 @@ namespace Ado.Net
 {
     public class DBConnect
     {
-        public void Connect()
+        public DBConnect()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
