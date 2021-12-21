@@ -218,6 +218,10 @@ namespace DBConnect
             }
         }
 
+        /// <summary>
+        /// Вызов процедуры "CustOrderHist"
+        /// </summary>
+        /// <param name="orderId">Id заказа</param>
         public void CustOrdersDetail(int orderId)
         {
             List<CustOrdersDetail> custList = new List<CustOrdersDetail>();
