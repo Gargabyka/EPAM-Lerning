@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBConnect", "DBConnect\DBConnect.csproj", "{3B38BB11-6569-4B3B-9B21-72197924B137}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBConnect", "DBConnect\DBConnect.csproj", "{3B38BB11-6569-4B3B-9B21-72197924B137}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helper", "Helper", "{BBF95DC7-20FE-475F-A801-BD0C9F36A6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ado.Net.SqlHelper", "Ado.Net.SqlHelper\Ado.Net.SqlHelper.csproj", "{74482D7C-9E32-4DCE-B99B-F73549FB66E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ado.Net.SqlHelper", "Ado.Net.SqlHelper\Ado.Net.SqlHelper.csproj", "{74482D7C-9E32-4DCE-B99B-F73549FB66E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logic", "Logic", "{5CB51543-D5CB-43C6-A3B5-D3045ACADC10}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{570A97BA-4525-4B30-8E22-6981D10B77FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ado.Net.Dal", "Ado.Net.Dal\Ado.Net.Dal.csproj", "{0C5F69DC-84D7-44AF-82DA-D6B26418AF9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ado.Net.Dal", "Ado.Net.Dal\Ado.Net.Dal.csproj", "{0C5F69DC-84D7-44AF-82DA-D6B26418AF9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ado.Net.Logger", "Ado.Net.Logger\Ado.Net.Logger.csproj", "{0CFC0842-816D-46EE-B872-627145617D91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ado.Net.Logger", "Ado.Net.Logger\Ado.Net.Logger.csproj", "{0CFC0842-816D-46EE-B872-627145617D91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ado.Net.Contracts", "Ado.Net.Contracts\Ado.Net.Contracts.csproj", "{2E43417C-2676-4741-ADFC-F6A73E059F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ado.Net.Contracts", "Ado.Net.Contracts\Ado.Net.Contracts.csproj", "{2E43417C-2676-4741-ADFC-F6A73E059F83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL.Test", "DAL.Test\DAL.Test.csproj", "{C6A72474-3E28-4AA9-8970-A19F4EF49259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL.Test", "DAL.Test\DAL.Test.csproj", "{C6A72474-3E28-4AA9-8970-A19F4EF49259}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ado.Net.Unity", "Ado.Net.Unity\Ado.Net.Unity.csproj", "{3E9EFFAF-626A-4078-B6D8-F96D01D1C6A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,17 +53,22 @@ Global
 		{C6A72474-3E28-4AA9-8970-A19F4EF49259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6A72474-3E28-4AA9-8970-A19F4EF49259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6A72474-3E28-4AA9-8970-A19F4EF49259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E9EFFAF-626A-4078-B6D8-F96D01D1C6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E9EFFAF-626A-4078-B6D8-F96D01D1C6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E9EFFAF-626A-4078-B6D8-F96D01D1C6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E9EFFAF-626A-4078-B6D8-F96D01D1C6A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EF0D0648-44F1-4A6A-AB93-38F0E89FE89E}
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{74482D7C-9E32-4DCE-B99B-F73549FB66E1} = {BBF95DC7-20FE-475F-A801-BD0C9F36A6B1}
 		{0C5F69DC-84D7-44AF-82DA-D6B26418AF9C} = {5CB51543-D5CB-43C6-A3B5-D3045ACADC10}
 		{0CFC0842-816D-46EE-B872-627145617D91} = {5CB51543-D5CB-43C6-A3B5-D3045ACADC10}
 		{2E43417C-2676-4741-ADFC-F6A73E059F83} = {570A97BA-4525-4B30-8E22-6981D10B77FB}
+		{3E9EFFAF-626A-4078-B6D8-F96D01D1C6A8} = {5CB51543-D5CB-43C6-A3B5-D3045ACADC10}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF0D0648-44F1-4A6A-AB93-38F0E89FE89E}
 	EndGlobalSection
 EndGlobal

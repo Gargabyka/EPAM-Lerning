@@ -1,13 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Ado.Net.Contracts\Ado.Net.Contracts.csproj" />
       <ProjectReference Include="..\Ado.Net.Logger\Ado.Net.Logger.csproj" />
       <ProjectReference Include="..\Ado.Net.SqlHelper\Ado.Net.SqlHelper.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Unity.Abstractions, Version=5.11.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0">
+        <HintPath>..\..\..\..\.nuget\packages\unity\5.11.10\lib\netcoreapp3.0\Unity.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Unity" Version="5.11.10" />
     </ItemGroup>
 
 </Project>

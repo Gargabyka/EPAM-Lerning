@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,19 +8,24 @@ using Ado.Net.Contracts.Entities;
 using Ado.Net.Contracts.Enums;
 using Ado.Net.Dal.Interfaces;
 using Ado.Net.Logger;
+using Ado.Net.Logger.Interfaces;
 using Ado.Net.SqlHelper;
+using Unity;
 
 namespace Ado.Net.Dal.Implementations
 {
     public class NorthwindDal : INorthwindDal
     {
         private readonly string _connectionString;
-        private readonly ServiceLog _log;
+        private IServiceLog _log;
 
         public NorthwindDal()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            _log = new ServiceLog();
+
+            IUnityContainer container = new UnityContainer();
+            container.RegisterType<IServiceLog, ServiceLog>();
+            _log = container.Resolve<IServiceLog>();
         }
 
         /// <summary>
