@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient.SNI.runtime" Version="4.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />

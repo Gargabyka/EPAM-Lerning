@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Ado.Net.EF
 {
-    public class ApplicationConfig: Model, IApplicationConfig
+    public class ApplicationConfig: IApplicationConfig
     {
         private readonly Model _model;
-        public ApplicationConfig() : base()
+        public ApplicationConfig()
         {
             _model = new Model();
         }

@@ -5,12 +5,9 @@ namespace Ado.Net.EF.Models
     public partial class Model : DbContext
     {
         public Model()
-            : base("name=DbModel")
+            : base("name=DefaultConnection")
         {
         }
-        
-        public Model(string connection) : base(connection)
-        {}
 
         //-StartupProjectName Ado.Net.EF
 

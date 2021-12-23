@@ -14,7 +14,6 @@ namespace DAL.Test
         public void Setup()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            _dal = new NorthwindDal();
         }
 
         [Test]
