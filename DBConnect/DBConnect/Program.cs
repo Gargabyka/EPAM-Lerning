@@ -2,7 +2,11 @@
 using System.Linq;
 using Ado.Net.Dal.Implementations;
 using Ado.Net.Dal.Interfaces;
-using Ado.Net.EntityFramework;
+using Ado.Net.EF;
+using Ado.Net.EF.Interfaces;
+using Ado.Net.EF.Models;
+using Ado.Net.Logger;
+using Ado.Net.Logger.Interfaces;
 using Unity;
 
 namespace DBConnect
@@ -13,20 +17,25 @@ namespace DBConnect
         {
             IUnityContainer container = new UnityContainer();
             container.RegisterType<INorthwindDal, NorthwindDal>();
+            container.RegisterType<IServiceLog, ServiceLog>();
+            container.RegisterType<IApplicationConfig, ApplicationConfig>();
 
-            var northwind = container.Resolve<INorthwindDal>();
+            var northwind = container.Resolve<INorthwindDal>(); 
+            var applicationConfig = container.Resolve<IApplicationConfig>();
 
-            var context = new UserDbContext();
-            var products = context.Categories.ToList();
-            
-            foreach (var prod in products)
+            var categories = applicationConfig.GetCategories();
+
+            foreach (var cate in categories)
             {
-                Console.WriteLine($"Id = {prod.CategoryId} Category = {prod.CategoryName}");
-                foreach (var p in prod.Products)
+                Console.WriteLine($"Id = {cate.CategoryID} Category = {cate.CategoryName}");
+                foreach (var p in cate.Products)
                 {
                     Console.WriteLine($"SuppliersName = {p.Suppliers.CompanyName} ProductName = {p.ProductName}");
                 }
             }
+
+            Console.ReadKey();
+
 
             //var list = northwindDal.GetOrders();
             //var list = northwindDal.CustOrdersDetail(10250);

@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ado.Net.Dal\Ado.Net.Dal.csproj" />
-    <ProjectReference Include="..\Ado.Net.EntityFramework\Ado.Net.EntityFramework.csproj" />
+    <ProjectReference Include="..\Ado.Net.EF\Ado.Net.EF.csproj" />
     <ProjectReference Include="..\Ado.Net.Logger\Ado.Net.Logger.csproj" />
     <ProjectReference Include="..\Ado.Net.Unity\Ado.Net.Unity.csproj" />
   </ItemGroup>

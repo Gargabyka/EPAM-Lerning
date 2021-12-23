@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E41B820B-ECFF-40CC-AB9E-FA643051189B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ado.Net.EF</RootNamespace>
+    <AssemblyName>Ado.Net.EF</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationConfig.cs" />
+    <Compile Include="Interfaces\IApplicationConfig.cs" />
+    <Compile Include="Migrations\202112231635366_Initial.cs" />
+    <Compile Include="Migrations\202112231635366_Initial.Designer.cs">
+      <DependentUpon>202112231635366_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112231642316_CreditCardCreate.cs" />
+    <Compile Include="Migrations\202112231642316_CreditCardCreate.Designer.cs">
+      <DependentUpon>202112231642316_CreditCardCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112231652370_RenameDatabaseRegionAndAddNewColumn.cs" />
+    <Compile Include="Migrations\202112231652370_RenameDatabaseRegionAndAddNewColumn.Designer.cs">
+      <DependentUpon>202112231652370_RenameDatabaseRegionAndAddNewColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\CreditCards.cs" />
+    <Compile Include="Models\CustomerDemographics.cs" />
+    <Compile Include="Models\Customers.cs" />
+    <Compile Include="Models\Employees.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\Orders.cs" />
+    <Compile Include="Models\Order_Details.cs" />
+    <Compile Include="Models\Products.cs" />
+    <Compile Include="Models\Region.cs" />
+    <Compile Include="Models\Shippers.cs" />
+    <Compile Include="Models\Suppliers.cs" />
+    <Compile Include="Models\Territories.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202112231635366_Initial.resx">
+      <DependentUpon>202112231635366_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112231642316_CreditCardCreate.resx">
+      <DependentUpon>202112231642316_CreditCardCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112231652370_RenameDatabaseRegionAndAddNewColumn.resx">
+      <DependentUpon>202112231652370_RenameDatabaseRegionAndAddNewColumn.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

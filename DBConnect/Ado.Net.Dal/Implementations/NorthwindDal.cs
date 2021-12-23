@@ -19,13 +19,10 @@ namespace Ado.Net.Dal.Implementations
         private readonly string _connectionString;
         private IServiceLog _log;
 
-        public NorthwindDal()
+        public NorthwindDal(IServiceLog log)
         {
             _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
-            IUnityContainer container = new UnityContainer();
-            container.RegisterType<IServiceLog, ServiceLog>();
-            _log = container.Resolve<IServiceLog>();
+            _log = log;
         }
 
         /// <summary>
