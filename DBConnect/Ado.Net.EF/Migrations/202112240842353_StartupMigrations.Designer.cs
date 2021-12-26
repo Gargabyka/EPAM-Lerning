@@ -6,14 +6,14 @@ namespace Ado.Net.EF.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class CreditCardCreate : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
+    public sealed partial class StartupMigrations : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreditCardCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(StartupMigrations));
         
         string IMigrationMetadata.Id
         {
-            get { return "202112231642316_CreditCardCreate"; }
+            get { return "202112240842353_StartupMigrations"; }
         }
         
         string IMigrationMetadata.Source

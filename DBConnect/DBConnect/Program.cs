@@ -19,8 +19,15 @@ namespace DBConnect
             container.RegisterType<INorthwindDal, NorthwindDal>();
             container.RegisterType<IServiceLog, ServiceLog>();
             container.RegisterType<IApplicationConfig, ApplicationConfig>();
+            
+            var applicationConfig = container.Resolve<IApplicationConfig>();
 
-            var northwind = container.Resolve<INorthwindDal>(); 
+            var parse = new JsonParse(applicationConfig);
+            //parse.SerializationFile();
+            parse.SerializationFile();
+            var list = parse.DeserializationFile();
+
+            /*var northwind = container.Resolve<INorthwindDal>(); 
             var applicationConfig = container.Resolve<IApplicationConfig>();
 
             var categories = applicationConfig.GetCategories();
@@ -34,7 +41,7 @@ namespace DBConnect
                 }
             }
 
-            Console.ReadKey();
+            Console.ReadKey();*/
 
 
             //var list = northwindDal.GetOrders();
