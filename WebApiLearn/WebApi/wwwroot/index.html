@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Работа с WebApi</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h2>Список заказов</h2>
+    <div>
+        <form name="userForm">
+            <div class="form-group col-md-5">
+                <label for="orderID">Id заказа:</label>
+                <input class="form-control" name="orderID"/>
+            </div>
+            <div class="form-group col-md-5">
+                <label for="shipName">Название судна:</label>
+                <input class="form-control" name="shipName"/>
+            </div>
+            <div class="form-group col-md-5">
+                <label for="shipCity">Город судна:</label>
+                <input class="form-control" name="shipCity"/>
+            </div>
+            <div class="form-group col-md-5">
+                <label for="shipCountry">Страна судна:</label>
+                <input class="form-control" name="shipCountry"/>
+            </div>
+            <div class="panel-body">
+                <button type="submit" id="submit" class="btn btn-primary">Сохранить</button>
+                <button type="reset" id="reset" class="btn btn-primary">Сбросить</button>
+            </div>
+        </form>
+    </div>
+    <table class="table table-condensed table-striped  col-md-6">
+        <thead><tr><th>Id заказа</th><th>Название судна</th><th>Город судна</th><th>Страна судна</th><th></th></tr></thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div>Larionov A.O.</div>
+    <script>
+        // Получение всех заказов
+        async function GetOrders() {
+            // отправляет запрос и получаем ответ
+            const response = await fetch("/api/orders", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            // если запрос прошел нормально
+            if (response.ok === true) {
+                // получаем данные
+                const orders = await response.json();
+                let rows = document.querySelector("tbody");
+                orders.forEach(order => {
+                    // добавляем полученные элементы в таблицу
+                    rows.append(row(order));
+                });
+            }
+        }
+        // Получение одного заказа
+        async function GetOrder(id) {
+            const response = await fetch("/api/orders/" + id, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const order = await response.json();
+                const form = document.forms["userForm"];
+                
+                if(form.elements["orderID"].value.length === 0){
+                    form.elements["orderID"].readOnly = true;
+                }
+                form.elements["orderID"].value = order.orderID;
+                form.elements["shipName"].value = order.shipName;
+                form.elements["shipCity"].value = order.shipCity;
+                form.elements["shipCountry"].value = order.shipCountry;
+            }
+        }
+        // Добавление заказа
+        async function CreateOrders(shipName, shipCity, shipCountry) {
+
+            const response = await fetch("api/orders", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    shipName: shipName,
+                    shipCity: shipCity,
+                    shipCountry: shipCountry
+                })
+            });
+            if (response.ok === true) {
+                const order = await response.json();
+                reset();
+                document.querySelector("tbody").append(row(order));
+            }
+        }
+        // Изменение заказа
+        async function EditOrder(orderID, shipName, shipCity, shipCountry) {
+            const response = await fetch("api/orders", {
+                method: "PUT",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    orderID: Number.parseInt(orderID),
+                    shipName: shipName,
+                    shipCity: shipCity,
+                    shipCountry: shipCountry
+                })
+            });
+            if (response.ok === true) {
+                const orders = await response.json();
+                reset();
+                document.querySelector("tr[data-rowid='" + orders.orderID + "']").replaceWith(row(orders));
+            }
+        }
+        // Удаление заказа
+        async function DeleteOrders(id) {
+            const response = await fetch("/api/orders/" + id, {
+                method: "DELETE",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                const order = await response.json();
+                document.querySelector("tr[data-rowid='" + id + "']").remove();
+            }
+        }
+
+        // сброс формы
+        function reset() {
+            const form = document.forms["userForm"];
+            form.elements["orderID"].readOnly = false;
+            form.elements["orderID"].value = null;
+            form.elements["shipName"].value = null;
+            form.elements["shipCity"].value = null;
+            form.elements["shipCountry"].value = null;
+        }
+        // создание строки для таблицы
+        function row(orders) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", orders.orderID);
+
+            const idTd = document.createElement("td");
+            idTd.append(orders.orderID);
+            tr.append(idTd);
+
+            const shipNameTd = document.createElement("td");
+            shipNameTd.append(orders.shipName);
+            tr.append(shipNameTd);
+
+            const shipCityTd = document.createElement("td");
+            shipCityTd.append(orders.shipCity);
+            tr.append(shipCityTd);      
+            
+            const shipCountryTd = document.createElement("td");
+            shipCountryTd.append(orders.shipCountry);
+            tr.append(shipCountryTd);
+
+            const linksTd = document.createElement("td");
+
+            const editLink = document.createElement("a");
+            editLink.setAttribute("data-id", orders.orderID);
+            editLink.setAttribute("style", "cursor:pointer;padding:15px;");
+            editLink.append("Изменить");
+            editLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                GetOrder(orders.orderID);
+            });
+            linksTd.append(editLink);
+
+            const removeLink = document.createElement("a");
+            removeLink.setAttribute("data-id", orders.orderID);
+            removeLink.setAttribute("style", "cursor:pointer;padding:15px;");
+            removeLink.append("Удалить");
+            removeLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                DeleteOrders(orders.orderID);
+            });
+
+            linksTd.append(removeLink);
+            tr.appendChild(linksTd);
+
+            return tr;
+        }
+        // сброс значений формы
+        // отправка формы
+        document.forms["userForm"].addEventListener("reset", e => {
+            e.preventDefault();
+            const form = document.forms["userForm"];
+            form.elements["orderID"].readOnly = false;
+        });
+
+        // отправка формы
+        document.forms["userForm"].addEventListener("submit", e => {
+            e.preventDefault();
+            const form = document.forms["userForm"];
+            const orderID = form.elements["orderID"].value;
+            const shipName = form.elements["shipName"].value;
+            const shipCity = form.elements["shipCity"].value;  
+            const shipCountry = form.elements["shipCountry"].value;
+            if (orderID == "")
+                CreateOrders(shipName, shipCity, shipCountry);
+            else
+                EditOrder(orderID, shipName, shipCity, shipCountry);
+        });
+
+        // загрузка заказов
+        GetOrders();
+
+    </script>
+</body>
+</html>
