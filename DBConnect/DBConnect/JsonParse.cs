@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Ado.Net.EF.Interfaces;
+using Ado.Net.EF.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,13 +21,13 @@ namespace DBConnect
 
         public async void SerializationFile()
         {
-            var filePath = "..\\..\\..\\..\\categories.json";
-            var categories = _applicationConfig.GetCategories();
+            var filePath = "..\\..\\..\\..\\territories.json";
+            var territories = _applicationConfig.GetTerritories();
             
-            var categoriesResult = categories
+            var categoriesResult = territories
                 .Select(x => new
                 {
-                    x.CategoryID, x.CategoryName, x.Description, x.Picture
+                    x.TerritoryID, x.TerritoryDescription, x.RegionID
                 })
                 .ToList();
             
@@ -34,10 +35,10 @@ namespace DBConnect
             File.WriteAllText(filePath, json);
         }
 
-        public List<JObject> DeserializationFile()
+        public List<Territories> DeserializationFile()
         {
-            var filePath = "..\\..\\..\\..\\categories.json";
-            List<JObject> list = JsonConvert.DeserializeObject<List<JObject>>(File.ReadAllText(filePath));
+            var filePath = "..\\..\\..\\..\\territories.json";
+            List<Territories> list = JsonConvert.DeserializeObject<List<Territories>>(File.ReadAllText(filePath));
 
             return list;
         }

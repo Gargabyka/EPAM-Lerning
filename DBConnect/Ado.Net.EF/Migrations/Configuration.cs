@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using Ado.Net.EF.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Ado.Net.EF.Migrations
 {
@@ -9,7 +13,7 @@ namespace Ado.Net.EF.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Model modelBuilder)
@@ -90,7 +94,10 @@ namespace Ado.Net.EF.Migrations
                     RegionDescription = "Southern"   
                 });
 
-            foreach (var ter in territory)
+            var filePath = "territories.json";
+            List<Territories> territories = JsonConvert.DeserializeObject<List<Territories>>(File.ReadAllText(filePath));
+            
+            foreach (var ter in territories)
             {
                 modelBuilder.Territories.AddOrUpdate(
                     h=>h.TerritoryID,
