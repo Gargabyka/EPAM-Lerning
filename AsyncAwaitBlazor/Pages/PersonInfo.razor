@@ -1,0 +1,50 @@
+﻿@inject AsyncAwaitBlazor.Interfaces.IPersonController controller
+@page "/person_info"
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Создание/Обновление пользователя</h2>
+            <input class="form-control" placeholder="Id" readonly="readonly" @bind="Id" />
+            <input class="form-control" placeholder="Имя" @bind="Name" />
+            <input class="form-control" placeholder="Фамилия" @bind="Surname" />
+            <input class="form-control" placeholder="Возраст" @bind="Age" />
+            <button class="btn btn-success" @onclick="UpdateCreatePerson">Добавить/Обновить пользователя</button>
+            <button class="btn btn-danger" @onclick="ClearField">Отчистить поле</button>
+        </div>
+        <style type="text/css">
+            input{
+                margin: 10px
+            }
+        </style>
+        <div class="col-md-6">
+            <h2>Данные пользователей</h2>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Возраст</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                @foreach (var item in person)
+                {
+                    <tbody>
+                        <tr>
+                            <td> @item.Id </td>
+                            <td> @item.Name </td>
+                            <td> @item.Surname </td>
+                            <td> @item.Age </td>
+                            <td> <button class="btn btn-warning" @onclick="(() => CompletionFields(item.Id, item.Name, item.Surname, item.Age))">Обновить</button> </td>
+                            <td> <button class="btn btn-danger" @onclick="(() => DeletePerson(item.Id))">Удалить</button> </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
